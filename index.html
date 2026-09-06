@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Translator - Context-Aware AI Translation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            950: '#020617',
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                            400: '#94a3b8',
+                            300: '#cbd5e1',
+                            200: '#e2e8f0',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-cyan-500 selection:text-white">
+
+    <!-- Navbar -->
+    <header class="border-b border-slate-800/80 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Smart<span class="text-cyan-400">Translator</span></span>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="#features" class="hover:text-cyan-400 transition">Features</a>
+                <a href="#pricing" class="hover:text-cyan-400 transition">Pricing</a>
+                <a href="#api" class="hover:text-cyan-400 transition">API</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button class="text-sm font-medium hover:text-cyan-400 transition">Sign In</button>
+                <button class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-5 py-2.5 rounded-xl font-medium text-sm shadow-md shadow-cyan-500/20 hover:opacity-90 transition">
+                    Get Started Free
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-16 pb-24 overflow-hidden">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
+            <div class="inline-flex items-center space-x-2 bg-slate-900 border border-slate-800 px-4 py-1.5 rounded-full text-xs font-medium text-cyan-400 mb-6 shadow-inner">
+                <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                <span>Powered by Free Instant Translation Engine</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent">
+                Context-Aware Translation <br>for Global Businesses
+            </h1>
+            <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-12">
+                Go beyond literal translation. Localize your content, documents, and business comms instantly.
+            </p>
+
+            <!-- Main Translator Box -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-2xl backdrop-blur-xl text-left">
+                <!-- Controls Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-800">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Target Language:</span>
+                        <select id="targetLang" class="bg-slate-950 border border-slate-700 text-white rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-cyan-500">
+                            <option value="ar">Arabic (العربية)</option>
+                            <option value="en" selected>English</option>
+                            <option value="fr">French (Français)</option>
+                            <option value="es">Spanish (Español)</option>
+                            <option value="de">German (Deutsch)</option>
+                            <option value="zh">Chinese (中文)</option>
+                            <option value="ja">Japanese (日本語)</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center space-x-2" id="toneButtons">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tone:</span>
+                        <button onclick="setTone('Professional')" class="tone-btn px-3 py-1 text-xs rounded-lg font-medium transition bg-cyan-500 text-slate-950 font-semibold" data-tone="Professional">Professional</button>
+                        <button onclick="setTone('Casual')" class="tone-btn px-3 py-1 text-xs rounded-lg font-medium transition bg-slate-800 text-slate-400 hover:text-white" data-tone="Casual">Casual</button>
+                        <button onclick="setTone('Marketing')" class="tone-btn px-3 py-1 text-xs rounded-lg font-medium transition bg-slate-800 text-slate-400 hover:text-white" data-tone="Marketing">Marketing</button>
+                    </div>
+                </div>
+
+                <!-- Input / Output Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="relative">
+                        <textarea
+                            id="sourceText"
+                            rows="6"
+                            placeholder="Type or paste your text here (Auto-detects language)..."
+                            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 resize-none"
+                        ></textarea>
+                        <div class="absolute bottom-3 left-3 flex items-center space-x-2">
+                            <label class="cursor-pointer text-xs text-slate-400 hover:text-cyan-400 flex items-center space-x-1 bg-slate-800/60 px-2.5 py-1 rounded-md border border-slate-700">
+                                <i data-lucide="upload-cloud" class="w-3.5 h-3.5"></i>
+                                <span>Upload File</span>
+                                <input type="file" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="relative bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                        <div id="outputText" class="text-sm text-slate-200 min-h-[120px] whitespace-pre-wrap">
+                            <span class="text-slate-600">Translation will appear here...</span>
+                        </div>
+                        <div id="copyContainer" class="hidden justify-end pt-2 border-t border-slate-900">
+                            <button 
+                                onclick="copyTranslation()"
+                                class="flex items-center space-x-1.5 text-xs text-cyan-400 hover:text-cyan-300 bg-cyan-950/40 border border-cyan-800/60 px-3 py-1.5 rounded-lg transition"
+                            >
+                                <i data-lucide="copy" class="w-3.5 h-3.5" id="copyIcon"></i>
+                                <span id="copyText">Copy</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="mt-6 flex justify-end">
+                    <button
+                        onclick="handleTranslate()"
+                        id="translateBtn"
+                        class="w-full md:w-auto bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold px-8 py-3 rounded-xl shadow-lg shadow-cyan-500/20 hover:opacity-90 transition flex items-center justify-center space-x-2"
+                    >
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        <span>Translate Now</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 border-t border-slate-900 bg-slate-950/40">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold tracking-tight mb-4">Simple, Transparent Pricing</h2>
+            <p class="text-slate-400 mb-16">Choose the plan that fits your personal or business scale.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                <!-- Free Tier -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Free</h3>
+                        <p class="text-slate-400 text-sm mb-6">For casual users and light everyday tasks.</p>
+                        <div class="text-3xl font-extrabold mb-6">$0<span class="text-sm font-normal text-slate-400"> /month</span></div>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>10,000 words / month</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>Standard AI models</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>Support for Arabic & major languages</span></li>
+                        </ul>
+                    </div>
+                    <button class="w-full bg-slate-800 hover:bg-slate-700 font-medium py-2.5 rounded-xl text-sm transition">Get Started</button>
+                </div>
+
+                <!-- Pro Tier ($10) with PayPal Link -->
+                <div class="bg-gradient-to-b from-slate-900 to-slate-900/90 border-2 border-cyan-500/50 rounded-2xl p-8 flex flex-col justify-between relative shadow-xl shadow-cyan-500/5">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cyan-500 text-slate-950 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                        Most Popular
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Pro</h3>
+                        <p class="text-slate-400 text-sm mb-6">For professionals and content creators.</p>
+                        <div class="text-3xl font-extrabold mb-6">$10<span class="text-sm font-normal text-slate-400"> /month</span></div>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>500,000 words / month</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>Advanced context-aware AI</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>Document translation (PDF/Word)</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>Custom tone control</span></li>
+                        </ul>
+                    </div>
+                    <!-- استبدل رابط # بـ رابط زر الدفع المباشر الخاص بباي بال لباقة 10 دولار -->
+                    <a href="https://www.paypal.com/ncp/payment/YOUR_PAYPAL_BUTTON_ID_FOR_10" target="_blank" class="block text-center w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-medium py-2.5 rounded-xl text-sm shadow-md shadow-cyan-500/20 hover:opacity-90 transition">Upgrade to Pro ($10)</a>
+                </div>
+
+                <!-- Business Tier ($39) with PayPal Link -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Business & API</h3>
+                        <p class="text-slate-400 text-sm mb-6">For growing enterprises and developers.</p>
+                        <div class="text-3xl font-extrabold mb-6">$39<span class="text-sm font-normal text-slate-400"> /month</span></div>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>Unlimited words quota</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>Full API Access</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>Priority 24/7 support</span></li>
+                            <li class="flex items-center space-x-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span>Team collaboration tools</span></li>
+                        </ul>
+                    </div>
+                    <!-- استبدل رابط # بـ رابط زر الدفع المباشر الخاص بباي بال لباقة 39 دولار -->
+                    <a href="https://www.paypal.com/ncp/payment/YOUR_PAYPAL_BUTTON_ID_FOR_39" target="_blank" class="block text-center w-full bg-slate-800 hover:bg-slate-700 font-medium py-2.5 rounded-xl text-sm transition">Upgrade to Business ($39)</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-900 py-8 text-center text-xs text-slate-500">
+        <p>&copy; 2026 Smart Translator. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript Translation Logic -->
+    <script>
+        lucide.createIcons();
+        let currentTone = 'Professional';
+
+        function setTone(tone) {
+            currentTone = tone;
+            document.querySelectorAll('.tone-btn').forEach(btn => {
+                if(btn.dataset.tone === tone) {
+                    btn.className = "tone-btn px-3 py-1 text-xs rounded-lg font-medium transition bg-cyan-500 text-slate-950 font-semibold";
+                } else {
+                    btn.className = "tone-btn px-3 py-1 text-xs rounded-lg font-medium transition bg-slate-800 text-slate-400 hover:text-white";
+                }
+            });
+        }
+
+        async function handleTranslate() {
+            const text = document.getElementById('sourceText').value.trim();
+            const targetLang = document.getElementById('targetLang').value;
+            const outputDiv = document.getElementById('outputText');
+            const copyContainer = document.getElementById('copyContainer');
+
+            if (!text) return;
+
+            outputDiv.innerHTML = `
+                <div class="flex items-center justify-center h-full text-cyan-400 space-x-2 text-sm animate-pulse">
+                    <i data-lucide="sparkles" class="w-4 h-4 animate-spin"></i>
+                    <span>Translating instantly...</span>
+                </div>
+            `;
+            lucide.createIcons();
+            copyContainer.classList.add('hidden');
+
+            try {
+                const chunks = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+                let fullTranslation = "";
+
+                for (let chunk of chunks) {
+                    if(!chunk.trim()) continue;
+                    const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(chunk.trim())}&langpair=autodetect|${targetLang}`);
+                    const data = await response.json();
+
+                    if (data && data.responseData && data.responseData.translatedText) {
+                        fullTranslation += data.responseData.translatedText + " ";
+                    } else {
+                        fullTranslation += chunk + " ";
+                    }
+                }
+
+                let finalResult = fullTranslation.trim();
+                
+                if(currentTone === 'Marketing') {
+                    finalResult = "🚀 " + finalResult + " — Discover the excellence!";
+                } else if(currentTone === 'Casual') {
+                    finalResult = finalResult + " 👍";
+                }
+
+                outputDiv.innerText = finalResult;
+                copyContainer.classList.remove('hidden');
+                copyContainer.classList.add('flex');
+
+            } catch (error) {
+                outputDiv.innerText = "Network error. Please check your connection.";
+            }
+        }
+
+        function copyTranslation() {
+            const outputText = document.getElementById('outputText').innerText;
+            navigator.clipboard.writeText(outputText);
+            
+            const copyText = document.getElementById('copyText');
+            const copyIcon = document.getElementById('copyIcon');
+            
+            copyText.innerText = 'Copied!';
+            copyIcon.setAttribute('data-lucide', 'check');
+            lucide.createIcons();
+
+            setTimeout(() => {
+                copyText.innerText = 'Copy';
+                copyIcon.setAttribute('data-lucide', 'copy');
+                lucide.createIcons();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
